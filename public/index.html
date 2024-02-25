@@ -9,7 +9,7 @@
   <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.0.8/aframe/build/aframe-ar.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="style.css">
-
+  <script src="https://kit.fontawesome.com/94c81be855.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -25,24 +25,18 @@
     </a-entity>
 
     <!-- Control Buttons -->
-    <!-- <div id="controls">
-      <button onclick="scaleUp()">Zoom In</button>
-      <button onclick="scaleDown()">Zoom Out</button>
-      <button onclick="rotateRight()">Putar Kanan</button>
-      <button onclick="rotateLeft()">Putar Kiri</button>
-      <button onclick="rotateUp()">Putar Atas</button>
-      <button onclick="rotateDown()">Putar Bawah</button>
+    <div id="controls">
+      <button onclick="scaleUp()" class="circle-icon">
+        <i class="fa fa-search-plus"></i> </button>
+      <button onclick="scaleDown()" class="circle-icon"><i class="fa fa-search-minus"></i> </button>
+      <button onclick="rotateUp()" class="circle-icon"><i class="fa-solid fa-arrows-rotate"></i></i></button>
+      <button onclick="rotateRight()" class="circle-icon"><i class="fa fa-rotate-right"></i></button>
+      <button onclick="rotateLeft()" class="circle-icon"><i class="fa fa-rotate-left"></i></button>
 
-      
-      <div id="audioControls">
-        <button onclick="toggleAudio()">Play Sound</button>
-       
-        <div id="progressBar">
-          <div class="progress" style="width: 0%;"></div>
-        </div>
-      </div>
 
-    </div> -->
+
+
+    </div>
     <div class="controls">
       <div>
         <button class="circle-icon" onclick="toggleAudio()">
@@ -211,14 +205,14 @@
     function rotateRight() {
       var model = document.getElementById('treeModel');
       var rotation = model.getAttribute('rotation');
-      rotation.y -= 5;
+      rotation.z -= 5;
       model.setAttribute('rotation', rotation);
     }
 
     function rotateLeft() {
       var model = document.getElementById('treeModel');
       var rotation = model.getAttribute('rotation');
-      rotation.y += 5;
+      rotation.z += 5;
       model.setAttribute('rotation', rotation);
     }
 
