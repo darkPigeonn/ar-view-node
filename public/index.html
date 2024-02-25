@@ -4,92 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scale and Rotate Controls with AR - Mobile Version</title>
+  <title>Scale and Rodtate Controls with AR - Mobile Version</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.0.8/aframe/build/aframe-ar.js"></script>
-  <style>
-    /* CSS untuk mengatur tampilan pada perangkat mobile */
-    body {
-      margin: 0;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f0f0f0;
-    }
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="style.css">
 
-    a-scene {
-      width: 100%;
-      height: 100%;
-    }
-
-    #controls {
-      position: absolute;
-      margin: 10px 10px;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 999;
-      background-color: rgba(255, 255, 255, 0.5);
-      padding: 10px;
-      border-radius: 10px;
-    }
-
-    .controls {
-      position: absolute;
-
-      bottom: 0px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 999;
-      background-color: rgba(255, 255, 255, 0.5);
-      padding: 10px;
-      border-radius: 10px;
-    }
-
-    button {
-      margin: 5px;
-      padding: 5px 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-
-    #audioControls {
-      display: flex;
-      align-items: center;
-      margin-top: 10px;
-    }
-
-    #progressBar {
-      flex-grow: 1;
-      height: 5px;
-      background-color: #ccc;
-      border-radius: 5px;
-      margin: 0 10px;
-      position: relative;
-    }
-
-    #progressBar .progress {
-      height: 100%;
-      background-color: #4CAF50;
-      border-radius: 5px;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    #audioControls button {
-      margin: 0;
-    }
-  </style>
 </head>
 
 <body>
@@ -124,7 +44,88 @@
 
     </div> -->
     <div class="controls">
-      <div>Tombol</div>
+      <div>
+        <button class="circle-icon" onclick="toggleAudio()">
+          <i class="fa fa-play"></i>
+        </button>
+      </div>
+      <div id="progressBar">
+        <div class="progress" style="width: 0%;"></div>
+      </div>
+      <div>
+        <button class="circle-icon" onclick="showPopup()">
+          <i class="fa fa-book"></i>
+        </button>
+      </div>
+    </div>
+    <div id="popupContainer" class="popup-container">
+      <div class="popup-content">
+        <p class="popup-label">Konten pop-up di sini</p>
+        <div class="button-row">
+          <button class="circle-icon" onclick="toggleAudio()">
+            <i class="fa fa-play"></i>
+          </button>
+          <button class="circle-icon" onclick="hidePopup()">
+            <i class="fa fa-close"></i>
+          </button>
+        </div>
+      </div>
+      <div class="popup-detail">
+        <p style="text-align: justify;"><span style="font-size:12pt;">Tubuh virus secara umum
+            terdiri atas beberapa bagian diantaranya:</span></p>
+        <ol>
+          <li><strong>
+              <p><span style="font-size:12pt;">Kepala virus</span>
+              </p>
+            </strong></li>
+        </ol>
+        <p style="text-align: justify;"><span style="font-size:12pt;">Bagian kepala virus
+            terdiri atas&nbsp;</span><strong><span style="font-size:12pt;">kapsid</span></strong><span
+            style="font-size:12pt;">&nbsp;dan&nbsp;</span><strong><span style="font-size:12pt;">asam
+              nukleat.&nbsp;</span></strong><span style="font-size:12pt;">Kapsid merupakan selubung protein yang
+            berfungsi sebagai
+            pemberi bentuk pada virus, melindungi asam nukleat virus dari kerusakan, misalnya oleh enzim pencernaan
+            (nuklease) serta berfungsi untuk menyediakan protein enzim untuk menembus membran sel inang ketika melakukan
+            infeksi. Protein penyusun kapsid disebut kapsomer. Kapsid berisi asam nukleat yang disebut
+            nukleokapsid.</span></p>
+        <ol start="2">
+          <li><strong>
+              <p style="text-align: justify;"><span style="font-size:12pt;">Leher virus</span>
+              </p>
+            </strong></li>
+        </ol>
+        <p style="text-align: justify;"><span style="font-size:12pt;">Bagian leher virus
+            terdiri atas&nbsp;</span><strong><span style="font-size:12pt;">leher</span></strong><span
+            style="font-size:12pt;">&nbsp;dan&nbsp;</span><strong><span style="font-size:12pt;">kerah
+              (</span></strong><strong><em><span style="font-size:12pt;">collar</span></em></strong><strong><span
+              style="font-size:12pt;">).</span></strong><span style="font-size:12pt;">&nbsp;Leher virus berfungsi
+            sebagai tempat menyangga kepala
+            virus. Tidak semua jenis virus memiliki leher. Hanya virus yang berbentuk kompleks saja yang memiliki leher
+            (bakteriofag).</span></p>
+        <ol start="3">
+          <li><strong>
+              <p style="text-align: justify;"><span style="font-size:12pt;">Ekor virus</span>
+              </p>
+            </strong></li>
+        </ol>
+        <p><span style="font-size:12pt;">Ekor merupakan bagian tubuh virus yang penting untuk
+            melekatkan diri dengan sel inang serta memasukkan materi genetik virus ke dalam sel inang tersebut. Bagian
+            ekor virus terdiri atas selubung ekor, serabut ekor, lempeng dasar dan jarum
+            penusuk.&nbsp;</span><strong><span style="font-size:12pt;">Selubung</span></strong><span
+            style="font-size:12pt;">&nbsp;</span><strong><span style="font-size:12pt;">ekor</span></strong><span
+            style="font-size:12pt;">&nbsp;berfungsi untuk menginjeksi DNA virus ke dalam sel
+            hospes dan juga tempat penghubung antara kepala virus dan lempeng dasar virus.&nbsp;</span><strong><span
+              style="font-size:12pt;">Lempeng</span></strong><span style="font-size:12pt;">&nbsp;</span><strong><span
+              style="font-size:12pt;">dasar</span></strong><span style="font-size:12pt;">&nbsp;berfungsi sebagai tempat
+            melekatnya serabut ekor dan
+            jarum penusuk.&nbsp;</span><strong><span style="font-size:12pt;">Serabut</span></strong><span
+            style="font-size:12pt;">&nbsp;</span><strong><span style="font-size:12pt;">ekor</span></strong><span
+            style="font-size:12pt;">&nbsp;berfungsi sebagai penerima rangsangan (reseptor) dan
+            juga untuk menempel pada sel inang. Selanjutnya&nbsp;</span><strong><span style="font-size:12pt;">jarum
+              penusuk&nbsp;</span></strong><span style="font-size:12pt;">berfungsi untuk melubangi sel inang agar DNA
+            virus dapat
+            masuk ke sel inang.</span></p>
+      </div>
     </div>
 
     <!-- Audio Element -->
@@ -154,6 +155,15 @@
       isPlaying = !isPlaying;
     }
 
+    function showPopup() {
+      var popup = document.getElementById("popupContainer");
+      popup.classList.toggle("active");
+    }
+
+    function hidePopup() {
+      var popup = document.getElementById("popupContainer");
+      popup.classList.remove("active");
+    }
     // Mengupdate posisi dan tampilan bilah progres
     audio.addEventListener('timeupdate', function () {
       var percentage = (audio.currentTime / audio.duration) * 100;
