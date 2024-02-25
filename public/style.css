@@ -32,17 +32,15 @@ a-scene {
   display: flex;
   align-items: center;
   position: absolute;
-  margin: 0px 13px;
   bottom: 0px;
-  left: 50%;
-  transform: translateX(-53%);
+  
   z-index: 999;
   background-color: #25B4AC;
   /* warna hijau soft */
   border-radius: 10px;
   /* sudut yang dibulatkan */
   padding: 10px;
-  width: 40%;
+  width: 90%;
   border-radius: 10px;
 }
 
@@ -133,7 +131,10 @@ i {
   background-color: #f1f1f1;
   transition: bottom 0.3s ease; /* Efek transisi saat muncul */
 }
-
+a-scene {
+  width: 100vw;
+  height: 100vh;
+}
 .popup-content {
   display:flex;
   width : 100%;
