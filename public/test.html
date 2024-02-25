@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobile AR</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js/aframe/build/aframe-ar.js"></script>
+</head>
+
+<body>
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix;">
+    <!-- Objek yang akan ditampilkan di tampilan AR -->
+    <a-box position="0 0.5 -3" material="color: red;"></a-box>
+    <!-- Kamera untuk AR -->
+    <a-entity camera></a-entity>
+  </a-scene>
+</body>
+
+</html>
