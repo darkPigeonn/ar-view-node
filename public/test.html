@@ -1,37 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Mobile AR</title>
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js/aframe/build/aframe-ar.js"></script>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    /* Mengatur ukuran canvas agar sesuai dengan layar */
-    a-scene {
-      width: 100%;
-      height: 100%;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile AR View</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
-
 <body>
-  <a-scene embedded arjs>
-    <!-- Objek yang akan ditampilkan di tampilan AR -->
-    <a-box position="0 0.5 -3" material="color: red;"></a-box>
-    <!-- Kamera untuk AR -->
-    <a-entity camera position="0 0 0"></a-entity>
-  </a-scene>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/webxr-polyfill@3.3.0/build/webxr-polyfill.js"></script>
+    <script>
+        let scene, camera, renderer;
 
+        function init() {
+            scene = new THREE.Scene();
+
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 0, 0);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            // WebXR setup
+            navigator.xr.requestDevice().then((device) => {
+                device.requestSession({ immersive: true }).then((session) => {
+                    session.updateRenderState({ baseLayer: new XRWebGLLayer(session, renderer) });
+
+                    // Create an XRReferenceSpace
+                    const referenceSpace = session.requestReferenceSpace('local');
+
+                    // Create a model and add it to the scene
+                    const loader = new THREE.GLTFLoader();
+                    loader.load('sample_box.glb', function (gltf) {
+                        const box = gltf.scene;
+                        scene.add(box);
+
+                        // Start rendering the scene
+                        session.requestAnimationFrame(drawFrame);
+                    });
+
+                    function drawFrame(time, frame) {
+                        const pose = frame.getViewerPose(referenceSpace);
+
+                        if (pose) {
+                            const view = pose.views[0];
+                            const viewport = session.renderState.baseLayer.getViewport(view);
+                            renderer.setSize(viewport.width, viewport.height);
+                            renderer.setViewport(viewport.x, viewport.y, viewport.width, viewport.height);
+
+                            // Update camera projection matrix
+                            camera.projectionMatrix.fromArray(view.projectionMatrix);
+
+                            // Set camera position and orientation
+                            const viewMatrix = new THREE.Matrix4().fromArray(view.transform.inverse.matrix);
+                            camera.matrixWorld.copy(viewMatrix);
+                            camera.updateMatrixWorld(true);
+
+                            // Render the scene
+                            renderer.render(scene, camera);
+
+                            // Request the next frame
+                            session.requestAnimationFrame(drawFrame);
+                        }
+                    }
+                });
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
 </html>
