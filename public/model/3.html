@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>AR.js Example</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <!-- <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js/aframe/build/aframe-ar.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://kit.fontawesome.com/94c81be855.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; trackingMethod: best; stabilizationEnabled: true;">
+    <a-assets>
+      <a-asset-item id="tree" src="../3d/groupbakteri.glb"></a-asset-item>
+    </a-assets>
+    <!-- Scene sebagai referensi posisi -->
+    <a-entity position="0 0 0" id="sceneRef">
+      <!-- Entitas untuk model -->
+      <a-entity id="treeModel" gltf-model="#tree" rotation="0 0 0" scale="1 1 1" position="0 1 -5"></a-entity>
+    </a-entity>
+
+  </a-scene>
+  <!-- Control Buttons -->
+  <div id="controls">
+    <button onclick="scaleUp()" class="circle-icon">
+      <i class="fa fa-search-plus"></i> </button>
+    <button onclick="scaleDown()" class="circle-icon"><i class="fa fa-search-minus"></i> </button>
+    <button onclick="rotateUp()" class="circle-icon"><i class="fa-solid fa-arrows-rotate"></i></i></button>
+    <button onclick="rotateRight()" class="circle-icon"><i class="fa fa-rotate-right"></i></button>
+    <button onclick="rotateLeft()" class="circle-icon"><i class="fa fa-rotate-left"></i></button>
+
+
+
+
+  </div>
+  <div class="controls">
+    <div>
+      <button class="circle-icon" onclick="toggleAudio()">
+        <i class="fa fa-play"></i>
+      </button>
+    </div>
+    <div id="progressBar">
+      <div class="progress" style="width: 0%;"></div>
+    </div>
+    <div>
+      <button class="circle-icon" onclick="showPopup()">
+        <i class="fa fa-book"></i>
+      </button>
+    </div>
+  </div>
+  <div id="popupContainer" class="popup-container">
+    <div class="popup-content">
+      <p class="popup-label">Keterangan</p>
+      <div class="button-row">
+        <button class="circle-icon" onclick="toggleAudio()">
+          <i class="fa fa-play"></i>
+        </button>
+        <button class="circle-icon" onclick="hidePopup()">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+    </div>
+    <div class="popup-detail">
+      <h2 style="text-align: justify;"><span style="font-weight: 400;">Amplop </span><em><span
+            style="font-weight: 400;">(envelope)</span></em><span style="font-weight: 400;"> tersusun atas protein lapis
+          ganda yang menyelimuti seluruh permukaan kapsid virus. Amplop dapat terbentuk pada saat virus masuk ke dalam
+          sel inang atau bergerak melalui beberapa membran. Komposisi amplop ini ditentukan pada jenis protein virus dan
+          dinding sel pada inang, biasanya virus yang memiliki amplop </span><em><span
+            style="font-weight: 400;">(enveloped virus)</span></em><span style="font-weight: 400;"> merupakan virus yang
+          menyerang hewan dan manusia. Virus tanpa amplop dikenal sebagai virus telanjang</span><em><span
+            style="font-weight: 400;"> (naked virus)</span></em><span style="font-weight: 400;">, amplop digunakan virus
+          untuk menyamarkan dirinya dari serangan sistem kekebalan tubuh inangnya. Selain itu, amplop ini juga membantu
+          virus pada saat memasuki membran plasma sel inang. Virus telanjang hanya memiliki kapsid dan asam nukleat.
+          Membran yang dimiliki oleh virus tersusun atas dua lapis lemak yang diselingi molekul protein </span><em><span
+            style="font-weight: 400;">(lipoprotein bilayer)</span></em><span style="font-weight: 400;"> dan mengandung
+          bahan-bahan dari membran sel inang.</span></h2>
+    </div>
+  </div>
+
+  <!-- Audio Element -->
+  <audio id="audio" src="sound/1.mp3"></audio>
+  <script>
+    document.querySelector('a-scene').setAttribute('embedded', {
+      aspectRatio: window.innerWidth / window.innerHeight
+    });
+    var audio = document.getElementById('audio');
+    var progressBar = document.getElementById('progressBar');
+    var progress = document.querySelector('.progress');
+    var currentTime = document.getElementById('currentTime');
+    var duration = document.getElementById('duration');
+    var isPlaying = false;
+
+    // Mengatur durasi audio saat tersedia
+    audio.onloadedmetadata = function () {
+      duration.textContent = formatTime(audio.duration);
+    };
+
+    // Memainkan atau menghentikan audio
+    function toggleAudio() {
+      if (isPlaying) {
+        audio.pause();
+      } else {
+        audio.play();
+      }
+      isPlaying = !isPlaying;
+    }
+
+    function showPopup() {
+      var popup = document.getElementById("popupContainer");
+      popup.classList.toggle("active");
+    }
+
+    function hidePopup() {
+      var popup = document.getElementById("popupContainer");
+      popup.classList.remove("active");
+    }
+    // Mengupdate posisi dan tampilan bilah progres
+    audio.addEventListener('timeupdate', function () {
+      var percentage = (audio.currentTime / audio.duration) * 100;
+      progress.style.width = percentage + '%';
+      currentTime.textContent = formatTime(audio.currentTime);
+    });
+
+    // Mengubah waktu audio saat mengklik bilah progres
+    progressBar.addEventListener('click', function (e) {
+      var boundingRect = progressBar.getBoundingClientRect();
+      var percentage = (e.clientX - boundingRect.left) / boundingRect.width;
+      var newTime = percentage * audio.duration;
+      audio.currentTime = newTime;
+    });
+
+    // Fungsi untuk memformat waktu dalam format MM:SS
+    function formatTime(time) {
+      var minutes = Math.floor(time / 60);
+      var seconds = Math.floor(time % 60);
+      if (seconds < 10) {
+        seconds = '0' + seconds;
+      }
+      return minutes + ':' + seconds;
+    }
+
+    // Fungsi-fungsi kontrol model (telah disertakan pada kode sebelumnya)
+    function scaleUp() {
+      var model = document.getElementById('treeModel');
+      var scale = model.getAttribute('scale');
+      scale.x += 0.1;
+      scale.y += 0.1;
+      scale.z += 0.1;
+      model.setAttribute('scale', scale);
+    }
+
+    function scaleDown() {
+      var model = document.getElementById('treeModel');
+      var scale = model.getAttribute('scale');
+      scale.x -= 0.1;
+      scale.y -= 0.1;
+      scale.z -= 0.1;
+      model.setAttribute('scale', scale);
+    }
+
+    function rotateRight() {
+      var model = document.getElementById('treeModel');
+      var rotation = model.getAttribute('rotation');
+      rotation.z -= 5;
+      model.setAttribute('rotation', rotation);
+    }
+
+    function rotateLeft() {
+      var model = document.getElementById('treeModel');
+      var rotation = model.getAttribute('rotation');
+      rotation.z += 5;
+      model.setAttribute('rotation', rotation);
+    }
+
+    function rotateUp() {
+      var model = document.getElementById('treeModel');
+      var rotation = model.getAttribute('rotation');
+      rotation.y += 50;
+      model.setAttribute('rotation', rotation);
+    }
+
+    function rotateDown() {
+      var model = document.getElementById('treeModel');
+      var rotation = model.getAttribute('rotation');
+      rotation.x += 5;
+      model.setAttribute('rotation', rotation);
+    }
+  </script>
+</body>
+
+
+</html>

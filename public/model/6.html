@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>AR.js Example</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <!-- <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js/aframe/build/aframe-ar.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://kit.fontawesome.com/94c81be855.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; trackingMethod: best; stabilizationEnabled: true;">
+    <a-assets>
+      <a-asset-item id="tree" src="../3d/groupbakteri.glb"></a-asset-item>
+    </a-assets>
+    <!-- Scene sebagai referensi posisi -->
+    <a-entity position="0 0 0" id="sceneRef">
+      <!-- Entitas untuk model -->
+      <a-entity id="treeModel" gltf-model="#tree" rotation="0 0 0" scale="1 1 1" position="0 1 -5"></a-entity>
+    </a-entity>
+
+  </a-scene>
+  <!-- Control Buttons -->
+  <div id="controls">
+    <button onclick="scaleUp()" class="circle-icon">
+      <i class="fa fa-search-plus"></i> </button>
+    <button onclick="scaleDown()" class="circle-icon"><i class="fa fa-search-minus"></i> </button>
+    <button onclick="rotateUp()" class="circle-icon"><i class="fa-solid fa-arrows-rotate"></i></i></button>
+    <button onclick="rotateRight()" class="circle-icon"><i class="fa fa-rotate-right"></i></button>
+    <button onclick="rotateLeft()" class="circle-icon"><i class="fa fa-rotate-left"></i></button>
+
+
+
+
+  </div>
+  <div class="controls">
+    <div>
+      <button class="circle-icon" onclick="toggleAudio()">
+        <i class="fa fa-play"></i>
+      </button>
+    </div>
+    <div id="progressBar">
+      <div class="progress" style="width: 0%;"></div>
+    </div>
+    <div>
+      <button class="circle-icon" onclick="showPopup()">
+        <i class="fa fa-book"></i>
+      </button>
+    </div>
+  </div>
+  <div id="popupContainer" class="popup-container">
+    <div class="popup-content">
+      <p class="popup-label">Keterangan</p>
+      <div class="button-row">
+        <button class="circle-icon" onclick="toggleAudio()">
+          <i class="fa fa-play"></i>
+        </button>
+        <button class="circle-icon" onclick="hidePopup()">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+    </div>
+    <div class="popup-detail">
+      <p style="line-height: 1.5;"><span style="font-size: 18px;">Siklus lisogenik merupakan siklus yang memungkinkan
+          terjadinya replikasi genom virus tanpa merusak sel inang. Siklus ini terjadi pada saat sel inang memiliki
+          pertahanan yang lebih kuat dibandingkan dengan infeksi virus. Pada siklus lisogenik tidak terbentuk virion
+          baru, namun virus menyisipkan asam nukleatnya pada asam nukleat sel inang yang membentuk profag. Adapun
+          tahapan siklus lisogenik antara lain:&nbsp;</span></p>
+      <ol style="line-height: 1.5;">
+        <li><span style="font-size: 18px;">Tahapan penempelan (adsorpsi)</span><br><span style="font-size: 18px;">&nbsp;
+            &nbsp; &nbsp;Pada tahapan ini, sama hal nya dengan yang terjadi pada siklus litik. Virus akan menempel pada
+            sel inang bakteri dan melubanginya dengan enzim lisozim.</span><br><br></li>
+        <li><span style="font-size: 18px;">Tahapan penetrasi</span><br><span style="font-size: 18px;">&nbsp; &nbsp;
+            Tahapan penetrasi juga sama seperti yang terjadi pada siklus litik. Virus akan mulai memasukan asam nukleat
+            ke dalam sel inang dan melepaskan kapsid yang sudah tidak digunakan.</span><br><br></li>
+        <li><span style="font-size: 18px;">Tahapan penggabungan</span><br><span style="font-size: 18px;">&nbsp; &nbsp;
+            Pada tahapan ini, virus akan memutuskan ikatan asam nukleat yang dimiliki oleh sel inang dan masuk ke
+            dalamnya untuk menghubungkan rantai. Pada tahapan ini, virus tidak mengambil asam nukleat sel inang akan
+            tetapi membaur untuk membentuk satu kesatuan yang disebut profag. Dalam bentuk profag, sebagian besar gen
+            berada dalam fase tidak aktif (laten) tetapi sedikitnya ada satu gen yang selalu aktif. Gen aktif berfungsi
+            untuk mengkode protein reseptor yang bertugas untuk menjaga supaya sebagian gen profag tidak
+            aktif.</span><br><br></li>
+        <li><span style="font-size: 18px;">Tahapan replikasi</span><br><span style="font-size: 18px;">&nbsp; &nbsp;
+            &nbsp;Saat profag akan bereplikasi, DNA fag juga turut bereplikasi. Kemudian ketika bakteri membelah diri,
+            bakteri menghasilkan dua sel anakan yang masing-masing mengandung profag. DNA fag (dalam profag) akan terus
+            bertambah banyak apabila sel bakteri terus-menerus membelah. Selanjutnya profag dapat keluar dari kromosom
+            sel inang dan sel akan mengalami siklus litik.</span></li>
+      </ol>
+      <p><br></p>
+    </div>
+  </div>
+
+  <!-- Audio Element -->
+  <audio id="audio" src="sound/1.mp3"></audio>
+  <script>
+    document.querySelector('a-scene').setAttribute('embedded', {
+      aspectRatio: window.innerWidth / window.innerHeight
+    });
+    var audio = document.getElementById('audio');
+    var progressBar = document.getElementById('progressBar');
+    var progress = document.querySelector('.progress');
+    var currentTime = document.getElementById('currentTime');
+    var duration = document.getElementById('duration');
+    var isPlaying = false;
+
+    // Mengatur durasi audio saat tersedia
+    audio.onloadedmetadata = function () {
+      duration.textContent = formatTime(audio.duration);
+    };
+
+    // Memainkan atau menghentikan audio
+    function toggleAudio() {
+      if (isPlaying) {
+        audio.pause();
+      } else {
+        audio.play();
+      }
+      isPlaying = !isPlaying;
+    }
+
+    function showPopup() {
+      var popup = document.getElementById("popupContainer");
+      popup.classList.toggle("active");
+    }
+
+    function hidePopup() {
+      var popup = document.getElementById("popupContainer");
+      popup.classList.remove("active");
+    }
+    // Mengupdate posisi dan tampilan bilah progres
+    audio.addEventListener('timeupdate', function () {
+      var percentage = (audio.currentTime / audio.duration) * 100;
+      progress.style.width = percentage + '%';
+      currentTime.textContent = formatTime(audio.currentTime);
+    });
+
+    // Mengubah waktu audio saat mengklik bilah progres
+    progressBar.addEventListener('click', function (e) {
+      var boundingRect = progressBar.getBoundingClientRect();
+      var percentage = (e.clientX - boundingRect.left) / boundingRect.width;
+      var newTime = percentage * audio.duration;
+      audio.currentTime = newTime;
+    });
+
+    // Fungsi untuk memformat waktu dalam format MM:SS
+    function formatTime(time) {
+      var minutes = Math.floor(time / 60);
+      var seconds = Math.floor(time % 60);
+      if (seconds < 10) {
+        seconds = '0' + seconds;
+      }
+      return minutes + ':' + seconds;
+    }
+
+    // Fungsi-fungsi kontrol model (telah disertakan pada kode sebelumnya)
+    function scaleUp() {
+      var model = document.getElementById('treeModel');
+      var scale = model.getAttribute('scale');
+      scale.x += 0.1;
+      scale.y += 0.1;
+      scale.z += 0.1;
+      model.setAttribute('scale', scale);
+    }
+
+    function scaleDown() {
+      var model = document.getElementById('treeModel');
+      var scale = model.getAttribute('scale');
+      scale.x -= 0.1;
+      scale.y -= 0.1;
+      scale.z -= 0.1;
+      model.setAttribute('scale', scale);
+    }
+
+    function rotateRight() {
+      var model = document.getElementById('treeModel');
+      var rotation = model.getAttribute('rotation');
+      rotation.z -= 5;
+      model.setAttribute('rotation', rotation);
+    }
+
+    function rotateLeft() {
+      var model = document.getElementById('treeModel');
+      var rotation = model.getAttribute('rotation');
+      rotation.z += 5;
+      model.setAttribute('rotation', rotation);
+    }
+
+    function rotateUp() {
+      var model = document.getElementById('treeModel');
+      var rotation = model.getAttribute('rotation');
+      rotation.y += 50;
+      model.setAttribute('rotation', rotation);
+    }
+
+    function rotateDown() {
+      var model = document.getElementById('treeModel');
+      var rotation = model.getAttribute('rotation');
+      rotation.x += 5;
+      model.setAttribute('rotation', rotation);
+    }
+  </script>
+</body>
+
+
+</html>

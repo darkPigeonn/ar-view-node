@@ -23,7 +23,7 @@ a-scene {
   left: 50%;
   transform: translateX(-50%);
   z-index: 999;
-  
+
   padding: 10px;
   border-radius: 10px;
 }
@@ -120,6 +120,7 @@ i {
   /* sudut yang dibulatkan */
   padding: 20px 10px;
   border-radius: 10px;
+  width: 90%;
   transition: bottom 0.3s ease; 
 }
 .popup-container2 {

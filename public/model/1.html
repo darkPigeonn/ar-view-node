@@ -8,7 +8,7 @@
   <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js/aframe/build/aframe-ar.js"></script>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../style.css">
   <script src="https://kit.fontawesome.com/94c81be855.js" crossorigin="anonymous"></script>
 
 </head>
@@ -16,12 +16,12 @@
 <body>
   <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; trackingMethod: best; stabilizationEnabled: true;">
     <a-assets>
-      <a-asset-item id="tree" src="3d/b.glb"></a-asset-item>
+      <a-asset-item id="tree" src="../3d/b.glb"></a-asset-item>
     </a-assets>
     <!-- Scene sebagai referensi posisi -->
     <a-entity position="0 0 0" id="sceneRef">
       <!-- Entitas untuk model -->
-      <a-entity id="treeModel" gltf-model="#tree" rotation="0 0 0" scale="1 1 1" position="0 1 -5"></a-entity>
+      <a-entity id="treeModel" gltf-model="#tree" rotation="0 0 0" scale="1 1 1" position="0 1 -7"></a-entity>
     </a-entity>
 
   </a-scene>
