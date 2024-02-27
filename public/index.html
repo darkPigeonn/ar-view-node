@@ -16,7 +16,7 @@
 <body>
   <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; trackingMethod: best; stabilizationEnabled: true;">
     <a-assets>
-      <a-asset-item id="tree" src="3d/1.glb"></a-asset-item>
+      <a-asset-item id="tree" src="3d/b.glb"></a-asset-item>
     </a-assets>
     <!-- Scene sebagai referensi posisi -->
     <a-entity position="0 0 0" id="sceneRef">
@@ -221,7 +221,7 @@
     function rotateUp() {
       var model = document.getElementById('treeModel');
       var rotation = model.getAttribute('rotation');
-      rotation.x -= 5;
+      rotation.y += 5;
       model.setAttribute('rotation', rotation);
     }
 
