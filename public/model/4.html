@@ -16,7 +16,7 @@
 <body>
   <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; trackingMethod: best; stabilizationEnabled: true;">
     <a-assets>
-      <a-asset-item id="tree" src="../3d/groupbakteri.glb"></a-asset-item>
+      <a-asset-item id="tree" src="../3d/finalcovid.glb"></a-asset-item>
     </a-assets>
     <!-- Scene sebagai referensi posisi -->
     <a-entity position="0 0 0" id="sceneRef">
@@ -83,7 +83,7 @@
   </div>
 
   <!-- Audio Element -->
-  <audio id="audio" src="sound/1.mp3"></audio>
+  <audio id="audio" src="../sound/4.m4a"></audio>
   <script>
     document.querySelector('a-scene').setAttribute('embedded', {
       aspectRatio: window.innerWidth / window.innerHeight
