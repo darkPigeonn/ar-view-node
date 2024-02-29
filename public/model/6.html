@@ -55,7 +55,7 @@
   </div>
   <div id="popupContainer" class="popup-container">
     <div class="popup-content">
-      <p class="popup-label">Keterangan</p>
+      <p class="popup-label">Deskripsi</p>
       <div class="button-row">
         <button class="circle-icon" onclick="toggleAudio()">
           <i class="fa fa-play"></i>
@@ -66,37 +66,49 @@
       </div>
     </div>
     <div class="popup-detail">
-      <p style="line-height: 1.5;"><span style="font-size: 18px;">Siklus lisogenik merupakan siklus yang memungkinkan
+      <p class="detail-text" style="line-height: 1.5;"><span style="">Siklus lisogenik merupakan siklus
+          yang memungkinkan
           terjadinya replikasi genom virus tanpa merusak sel inang. Siklus ini terjadi pada saat sel inang memiliki
           pertahanan yang lebih kuat dibandingkan dengan infeksi virus. Pada siklus lisogenik tidak terbentuk virion
           baru, namun virus menyisipkan asam nukleatnya pada asam nukleat sel inang yang membentuk profag. Adapun
-          tahapan siklus lisogenik antara lain:&nbsp;</span></p>
+          tahapan siklus lisogenik antara lain:;</span></p>
       <ol style="line-height: 1.5;">
-        <li><span style="font-size: 18px;">Tahapan penempelan (adsorpsi)</span><br><span style="font-size: 18px;">&nbsp;
-            &nbsp; &nbsp;Pada tahapan ini, sama hal nya dengan yang terjadi pada siklus litik. Virus akan menempel pada
-            sel inang bakteri dan melubanginya dengan enzim lisozim.</span><br><br></li>
-        <li><span style="font-size: 18px;">Tahapan penetrasi</span><br><span style="font-size: 18px;">&nbsp; &nbsp;
-            Tahapan penetrasi juga sama seperti yang terjadi pada siklus litik. Virus akan mulai memasukan asam nukleat
-            ke dalam sel inang dan melepaskan kapsid yang sudah tidak digunakan.</span><br><br></li>
-        <li><span style="font-size: 18px;">Tahapan penggabungan</span><br><span style="font-size: 18px;">&nbsp; &nbsp;
+        <li><span class="detail-text" style="">Tahapan penempelan (adsorpsi)</span><br>
+          <p class="detail-text">Pada tahapan ini, sama hal nya dengan yang terjadi pada siklus litik. Virus akan
+            menempel pada
+            sel inang bakteri dan melubanginya dengan enzim lisozim.</p><br><br>
+        </li>
+        <li><span class=" detail-text">Tahapan penetrasi</span><br>
+          <p class="detail-text" style="">
+
+            Tahapan penetrasi juga sama seperti yang terjadi pada siklus litik. Virus akan mulai memasukan asam
+            nukleat
+            ke dalam sel inang dan melepaskan kapsid yang sudah tidak digunakan.</p><br><br>
+        </li>
+        <li><span class="detail-text" style="">Tahapan penggabungan</span><br>
+          <p class="detail-text" style="">;
+
             Pada tahapan ini, virus akan memutuskan ikatan asam nukleat yang dimiliki oleh sel inang dan masuk ke
             dalamnya untuk menghubungkan rantai. Pada tahapan ini, virus tidak mengambil asam nukleat sel inang akan
             tetapi membaur untuk membentuk satu kesatuan yang disebut profag. Dalam bentuk profag, sebagian besar gen
             berada dalam fase tidak aktif (laten) tetapi sedikitnya ada satu gen yang selalu aktif. Gen aktif berfungsi
             untuk mengkode protein reseptor yang bertugas untuk menjaga supaya sebagian gen profag tidak
-            aktif.</span><br><br></li>
-        <li><span style="font-size: 18px;">Tahapan replikasi</span><br><span style="font-size: 18px;">&nbsp; &nbsp;
-            &nbsp;Saat profag akan bereplikasi, DNA fag juga turut bereplikasi. Kemudian ketika bakteri membelah diri,
+            aktif.</p><br><br>
+        </li>
+        <li><span class="detail-text" style="">Tahapan replikasi</span><br>
+          <p class="detail-text" style="">;
+            Saat profag akan bereplikasi, DNA fag juga turut bereplikasi. Kemudian ketika bakteri membelah diri,
             bakteri menghasilkan dua sel anakan yang masing-masing mengandung profag. DNA fag (dalam profag) akan terus
             bertambah banyak apabila sel bakteri terus-menerus membelah. Selanjutnya profag dapat keluar dari kromosom
-            sel inang dan sel akan mengalami siklus litik.</span></li>
+            sel inang dan sel akan mengalami siklus litik.</p>
+        </li>
       </ol>
       <p><br></p>
     </div>
   </div>
 
   <!-- Audio Element -->
-  <audio id="audio" src="sound/1.mp3"></audio>
+  <audio id="audio" src="../sound/6.m4a"></audio>
   <script>
     document.querySelector('a-scene').setAttribute('embedded', {
       aspectRatio: window.innerWidth / window.innerHeight

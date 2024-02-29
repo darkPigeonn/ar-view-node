@@ -11,6 +11,12 @@
   <link rel="stylesheet" href="../style.css">
   <script src="https://kit.fontawesome.com/94c81be855.js" crossorigin="anonymous"></script>
 
+
+  <style>
+    p {
+      font-size: 20px;
+    }
+  </style>
 </head>
 
 <body>
@@ -55,7 +61,7 @@
   </div>
   <div id="popupContainer" class="popup-container">
     <div class="popup-content">
-      <p class="popup-label">Konten pop-up di sini</p>
+      <p class="popup-label">Deskripsi</p>
       <div class="button-row">
         <button class="circle-icon" onclick="toggleAudio()">
           <i class="fa fa-play"></i>
@@ -124,7 +130,7 @@
   </div>
 
   <!-- Audio Element -->
-  <audio id="audio" src="sound/1.mp3"></audio>
+  <audio id="audio" src="/sound/1.mp3"></audio>
   <script>
     document.querySelector('a-scene').setAttribute('embedded', {
       aspectRatio: window.innerWidth / window.innerHeight

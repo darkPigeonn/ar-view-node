@@ -151,7 +151,7 @@ a-scene {
 }
 
 .popup-label{
-  font-size:20px;
+  font-size:24px;
   color : white
 }
 
@@ -160,6 +160,7 @@ a-scene {
   overflow-y: auto; /* Aktifkan overflow-y untuk scrolling vertikal jika konten lebih panjang dari container */
   padding: 10px; /* Padding untuk konten */
   margin-bottom:40%
+  font-size:20px;
 }
 
 .popup-detail ol{
@@ -168,4 +169,10 @@ a-scene {
 }
 .popup-detail p{
   text-align : justify
+  font-size : 20px!important;
+}
+.detail-text{
+  font-size:20px;
+  line-height:2rem;
+  text-align : justify!important;
 }
