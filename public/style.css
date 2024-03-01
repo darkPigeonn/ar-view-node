@@ -168,7 +168,8 @@ a-scene {
   padding-left:12px;
 }
 .popup-detail p{
-  text-align : justify
+  text-align : justify;
+  line-height:1.8rem;
   font-size : 20px!important;
 }
 .detail-text{
